@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const endpoints = {
-    development: 'http://projectisw.herokuapp.com',
+    development: 'https://projectisw.herokuapp.com',
     //development: 'http://localhost:8000',
 };
 
