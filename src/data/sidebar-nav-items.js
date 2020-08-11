@@ -45,6 +45,7 @@ export default function() {
       htmlBefore: '<i class="material-icons">view_module</i>',
       to: '/personalasg-list'
     },
+    /*
     {
       title: 'Agregar Paciente',
       htmlBefore: '<i class="material-icons">note_add</i>',
@@ -54,7 +55,7 @@ export default function() {
       title: 'Agregar Personal',
       htmlBefore: '<i class="material-icons">note_add</i>',
       to: '/personal-form'
-    },
+    }, */
     {
       title: 'Agregar Pabellon',
       htmlBefore: '<i class="material-icons">note_add</i>',
