@@ -8,6 +8,7 @@ import PageTitle from "../components/common/PageTitle";
 import Liberacion from "../components/forms/Liberacion";
 import pabellonService from '../services/pabellon.service';
 import pabellonasgService from '../services/pabellonasg.service';
+import paciente2Service from '../services/paciente2.service';
 
 class AddNewPost extends Component {
 
@@ -18,13 +19,22 @@ class AddNewPost extends Component {
   }
 
   handleLiberacionSubmit(data) {
-    pabellonService.update(data)
-      .then((response) => console.log(response))
-      .catch((error) => console.log(error));
+    pabellonService.getById(data)
+      .then((response) => {
+        paciente2Service.actualizarEstado(response.data.paciente,1)
+          .then((response) => console.log("Paciente liberado"))
+          .catch((error) => console.log(error));
+        pabellonService.update(data)
+          .then((response) => console.log(response))
+          .catch((error) => console.log(error));
 
-    pabellonasgService.borrarAsg(data.id)
-      .then((response) => console.log(response))
-      .catch((error) => console.log(error));
+        pabellonasgService.borrarAsg(data.id)
+          .then((response) => console.log(response))
+          .catch((error) => console.log(error));
+      }
+    );
+
+
   }
 
   render() {

@@ -9,6 +9,7 @@ import Asignacion from "../components/forms/Asignacion";
 import pabellonService from '../services/pabellon.service';
 import pabellonasgService from '../services/pabellonasg.service';
 import historialpacienteService from '../services/historialpaciente.service';
+import paciente2Service from '../services/paciente2.service';
 
 class AddNewPost extends Component {
 
@@ -26,15 +27,29 @@ class AddNewPost extends Component {
       pabellonService.valido({'id':data.id})
         .then((response) => {
           if(response.data){
-            pabellonService.update({'id':data.id,'paciente':data.paciente,'hora':data.hora,'estado':data.estado})
-              .then((response) => console.log(response))
-              .catch((error) => console.log(error));
-            pabellonasgService.asignar({'pabellon':data.id,'personal':data.personal})
-              .then((response) => console.log(response))
-              .catch((error) => console.log(error));
-            historialpacienteService.create({'pabellon':data.id,'paciente':data.paciente,'hora':data.hora})
-              .then((response) => console.log(response))
-              .catch((error) => console.log(error));
+            paciente2Service.obtenerEstadoDiagnostico(1,1)
+              .then((response2) => {
+                if(response2.data.res.find(e=>e == data.paciente)){
+                  console.log("Paciente Valido");
+                  pabellonService.update({'id':data.id,'paciente':data.paciente,'hora':data.hora,'estado':data.estado})
+                    .then((response) => console.log(response))
+                    .catch((error) => console.log(error));
+                  pabellonasgService.asignar({'pabellon':data.id,'personal':data.personal})
+                    .then((response) => console.log(response))
+                    .catch((error) => console.log(error));
+                  paciente2Service.actualizarEstado(data.paciente,3)
+                    .then((response) => console.log(response))
+                    .catch((error) => console.log(error));
+                  historialpacienteService.create({'pabellon':data.id,'paciente':data.paciente,'hora':data.hora})
+                    .then((response) => console.log(response))
+                    .catch((error) => console.log(error));
+                }
+                else{
+                  console.log("Paciente Invalido");
+                }
+
+              }
+              );
           }
           else{
             console.log("Pabellon Invalido")
